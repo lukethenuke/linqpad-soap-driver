@@ -16,9 +16,9 @@ namespace Driver
 	{
 		readonly Discovery discovery;
 
-		public ProxyBuilder(string url)
+		public ProxyBuilder(string url, ICredentials credentials)
 		{
-			discovery = new Discovery(url, CredentialCache.DefaultCredentials);
+			discovery = new Discovery(url, credentials);
 		}
 
 		public Proxy Build(AssemblyName assemblyName, string nameSpace)

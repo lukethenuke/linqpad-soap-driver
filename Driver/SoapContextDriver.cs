@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using LINQPad.Extensibility.DataContext;
+using System.Web.Services.Protocols;
 
 namespace Driver
 {
@@ -54,10 +55,18 @@ namespace Driver
 			return new Dialog(model).ShowDialog() == true;
 		}
 
+		public override void InitializeContext(IConnectionInfo cxInfo, object context, QueryExecutionManager executionManager)
+		{
+			var connection = new ConnectionModel(cxInfo);
+
+			var client = (WebClientProtocol)context;
+			client.Credentials = connection.GetCredentials();
+		}
+
 		public override List<ExplorerItem> GetSchemaAndBuildAssembly(IConnectionInfo connectionInfo, AssemblyName assemblyToBuild, ref string nameSpace, ref string typeName)
 		{
 			var model = new ConnectionModel(connectionInfo);
-			var proxy = new ProxyBuilder(model.Uri)
+			var proxy = new ProxyBuilder(model.Uri, model.GetCredentials())
 				.Build(assemblyToBuild, nameSpace);
 
 			var schema = new SchemaBuilder()

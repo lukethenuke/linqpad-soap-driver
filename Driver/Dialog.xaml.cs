@@ -64,7 +64,7 @@ namespace Driver
 				worker
 					.Failure(Discovery_Failure)
 					.Complete(Discovery_Connect)
-					.Connect(Model.Uri, CredentialCache.DefaultCredentials);
+					.Connect(Model.Uri, Model.GetCredentials());
 			}
 		}
 

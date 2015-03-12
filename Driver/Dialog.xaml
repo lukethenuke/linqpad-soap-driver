@@ -6,6 +6,7 @@
     WindowStartupLocation="CenterScreen"
 >
     <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <Style x:Key="ServiceBindngsStyle" TargetType="ListBox">
             <Setter Property="ItemContainerStyle">
                 <Setter.Value>
@@ -39,6 +40,24 @@
                         <ComboBox Text="{Binding Uri}" TabIndex="0" IsEditable="True"
                                   SelectedValue="{Binding Uri}"
                                   ItemsSource="{Binding KnownUris}"></ComboBox>
+                        <DockPanel>
+                            <Label VerticalAlignment="Center">Authentication?</Label>
+                            <CheckBox VerticalAlignment="Center" IsChecked="{Binding UseNetworkCredentials, Mode=TwoWay}" />
+                        </DockPanel>
+                        <StackPanel Margin="6" Visibility="{Binding UseNetworkCredentials, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <DockPanel Margin="2" LastChildFill="True">
+                                <Label Width="85">Username:</Label>
+                                <TextBox Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  />
+                            </DockPanel>
+                            <DockPanel Margin="2" LastChildFill="True">
+                                <Label Width="85">Password:</Label>
+                                <TextBox Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            </DockPanel>
+                            <DockPanel Margin="2" LastChildFill="True">
+                                <Label Width="85">Domain:</Label>
+                                <TextBox Text="{Binding Domain, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            </DockPanel>
+                        </StackPanel>
                     </StackPanel>
                 </Border>
                 <Border DockPanel.Dock="Bottom">
